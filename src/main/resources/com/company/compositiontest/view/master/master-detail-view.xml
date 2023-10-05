@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://masterDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="masterDc"
+                  class="com.company.compositiontest.entity.Master">
+            <fetchPlan extends="_base">
+                <property name="slaves" fetchPlan="_base"/>
+            </fetchPlan>
+            <collection id="slavesDc" property="slaves"/>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="masterDc">
+            <textField id="initializedByPostConstructField" property="initializedByPostConstruct"/>
+            <textField id="nameField" property="name"/>
+        </formLayout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="slavesGrid.create"/>
+            <button id="editBtn" action="slavesGrid.edit"/>
+            <button id="removeBtn" action="slavesGrid.remove"/>
+        </hbox>
+        <dataGrid id="slavesGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="slavesDc">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="initializedByPostConstruct"/>
+                <column property="slaveName"/>
+            </columns>
+        </dataGrid>
+
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
